@@ -1,4 +1,8 @@
-﻿namespace BusinessLogicLayer
+﻿using BusinessLogicLayer.ComunicationClasses;
+using BusinessLogicLayer.DataClasses;
+using System.Globalization;
+
+namespace BusinessLogicLayer
 {
     public class BLLClass
     {
@@ -10,25 +14,30 @@
             //this.dataAccess = dataAccess
         }
 
-        public void InitializeDatabase()
+        public static OperationResult InitializeDatabase()
         {
             //this.dataAccess.InitDatabase();
+            return new OperationResult(true);
         }
         
-        public void AddTimeRecord(string starTime, string endTime)
+        public static OperationResult AddTimeRecord(string starTime, string endTime)
         {
-
+            return new OperationResult(true);
         }
 
-        public void SeeTimeRecord() 
+        public static List<TimeRecord> SeeTimeRecord() 
         {
+            return new List<TimeRecord>();
+        }
 
+        public static OperationResult DeleteTimeRecord(TimeRecord timeRecord)
+        {
+            return new OperationResult(true);
         }
 
         public void DeleteTimeRecord(int id)
         {
 
         }
-
     }
 }
