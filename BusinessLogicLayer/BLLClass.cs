@@ -35,9 +35,23 @@ namespace BusinessLogicLayer
             return new OperationResult(true);
         }
 
-        public void DeleteTimeRecord(int id)
+        //calc the difference by time
+        private TimeSpan? TimeDifferenceCalc(string startDate, string endDate)
         {
+            if (DateTime.TryParseExact(startDate, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var start) &&
+                DateTime.TryParseExact(endDate, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var end))
+            {
+                return end - start;
+            }
 
+            return null; // return null if can't convert
+        }
+        
+        //returns in a formated in hours string
+        private string? TimeDifferenceFormatted(TimeSpan? TimeDifference)
+        {
+            var diff = TimeDifference;
+            return diff.HasValue ? diff.Value.ToString(@"hh\:mm\:ss") : null;
         }
     }
 }
