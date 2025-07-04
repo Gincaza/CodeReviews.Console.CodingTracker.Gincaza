@@ -74,7 +74,24 @@ namespace BusinessLogicLayer
 
         public OperationResult DeleteTimeRecord(TimeRecord timeRecord)
         {
-            return new OperationResult(true);
+            try
+            {
+                //bool deleteOperation = dataAccess.DeleteTimeRecord(timeRecord.id);
+                bool deleteOperation = true;
+
+                if (deleteOperation)
+                {
+                    return new OperationResult(true, "Success in delete Time Record.");
+                }
+                else
+                {
+                    return new OperationResult(false, "Failed in delete Time Record.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new OperationResult(false, ex.Message);
+            }
         }
 
         //calc the difference by time
