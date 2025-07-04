@@ -6,11 +6,11 @@ namespace BusinessLogicLayer
 {
     public class BLLClass
     {
-        //private static DataAccessLayer dataAccess;
+        private DataAccessLayer.Class1 dataAccess;
 
-        public BLLClass(/*DataAccessLayer dataAccess*/)
+        public BLLClass()
         {
-            //this.dataAccess = dataAccess
+            this.dataAccess = new DataAccessLayer.Class1();
         }
 
         public OperationResult InitializeDatabase()
@@ -35,7 +35,7 @@ namespace BusinessLogicLayer
 
         }
 
-        public static OperationResult AddTimeRecord(string starTime, string endTime)
+        public OperationResult AddTimeRecord(string starTime, string endTime)
         {
             try
             {
@@ -67,18 +67,18 @@ namespace BusinessLogicLayer
             }
         }
 
-        public static List<TimeRecord> SeeTimeRecord()
+        public List<TimeRecord> SeeTimeRecord()
         {
             return new List<TimeRecord>();
         }
 
-        public static OperationResult DeleteTimeRecord(TimeRecord timeRecord)
+        public OperationResult DeleteTimeRecord(TimeRecord timeRecord)
         {
             return new OperationResult(true);
         }
 
         //calc the difference by time
-        private static TimeSpan? TimeDifferenceCalc(string startDate, string endDate)
+        private TimeSpan? TimeDifferenceCalc(string startDate, string endDate)
         {
             if (DateTime.TryParseExact(startDate, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var start) &&
                 DateTime.TryParseExact(endDate, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var end))
@@ -90,7 +90,7 @@ namespace BusinessLogicLayer
         }
 
         //returns in a formated in hours string
-        private static string? TimeDifferenceFormatted(TimeSpan? TimeDifference)
+        private string? TimeDifferenceFormatted(TimeSpan? TimeDifference)
         {
             var diff = TimeDifference;
             return diff.HasValue ? diff.Value.ToString(@"hh\:mm\:ss") : null;
