@@ -13,10 +13,26 @@ namespace BusinessLogicLayer
             //this.dataAccess = dataAccess
         }
 
-        public static OperationResult InitializeDatabase()
+        public OperationResult InitializeDatabase()
         {
-            //this.dataAccess.InitDatabase();
-            return new OperationResult(true);
+            try
+            {
+                //bool createDatabase = this.dataAccess.InitDatabase();
+                bool createDatabase = true;
+                if (createDatabase)
+                {
+                    return new OperationResult(true, "Success creating the Database.");
+                }
+                else
+                {
+                    return new OperationResult(false, "Failed creating the Database.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new OperationResult(false, ex.Message);
+            }
+
         }
 
         public static OperationResult AddTimeRecord(string starTime, string endTime)
