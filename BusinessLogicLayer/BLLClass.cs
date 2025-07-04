@@ -94,6 +94,35 @@ namespace BusinessLogicLayer
             }
         }
 
+        public OperationResult UpdateTimeRecord(TimeRecord timeRecord)
+        {
+            try
+            {
+                if (timeRecord.id > 0)
+                {
+                    // bool updateOperation = dataAccess.UpdateTimeRecord(timeRecord.id);
+                    bool updateOperation = true;
+
+                    if (updateOperation)
+                    {
+                        return new OperationResult(true, $"Success in update Time Record {timeRecord.id}");
+                    }
+                    else
+                    {
+                        return new OperationResult(false, $"Failed in update Time Record {timeRecord.id}");
+                    }
+                }
+                else
+                {
+                    return new OperationResult(false, "Invalid Time Record ID.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new OperationResult(false, ex.Message);
+            }
+        }
+
         //calc the difference by time
         private TimeSpan? TimeDifferenceCalc(string startDate, string endDate)
         {
