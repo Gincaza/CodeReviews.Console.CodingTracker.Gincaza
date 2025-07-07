@@ -1,6 +1,7 @@
 ﻿using BusinessLogicLayer.ComunicationClasses;
-using BusinessLogicLayer.DataClasses;
 using System.Globalization;
+using DataClasses;
+using DataClasses.BLLClasses;
 
 namespace BusinessLogicLayer
 {
@@ -47,7 +48,7 @@ namespace BusinessLogicLayer
                 var timeDifference = TimeDifferenceCalc(starTime, endTime);
                 var formattedTimeDifference = TimeDifferenceFormatted(timeDifference) ?? "00:00";
 
-                var timeRecord = new TimeRecord(0, starTime, endTime, formattedTimeDifference);
+                var timeRecord = new CodingSessionDto(0, starTime, endTime, formattedTimeDifference);
 
                 //bool success = dataAccess.AddTimeRecordToDatabase(timeRecord);
                 bool success = true; //TODO - when finish with the DatabaseLayer we comeback here
@@ -67,12 +68,12 @@ namespace BusinessLogicLayer
             }
         }
 
-        public List<TimeRecord> SeeTimeRecord()
+        public List<CodingSessionDto> SeeTimeRecord()
         {
-            return new List<TimeRecord>();
+            return new List<CodingSessionDto>();
         }
 
-        public OperationResult DeleteTimeRecord(TimeRecord timeRecord)
+        public OperationResult DeleteTimeRecord(CodingSessionDto timeRecord)
         {
             try
             {
@@ -94,22 +95,22 @@ namespace BusinessLogicLayer
             }
         }
 
-        public OperationResult UpdateTimeRecord(TimeRecord timeRecord)
+        public OperationResult UpdateTimeRecord(CodingSessionDto timeRecord)
         {
             try
             {
-                if (timeRecord.id > 0)
+                if (timeRecord.Id > 0)
                 {
                     // bool updateOperation = dataAccess.UpdateTimeRecord(timeRecord.id);
                     bool updateOperation = true;
 
                     if (updateOperation)
                     {
-                        return new OperationResult(true, $"Success in update Time Record {timeRecord.id}");
+                        return new OperationResult(true, $"Success in update Time Record {timeRecord.Id}");
                     }
                     else
                     {
-                        return new OperationResult(false, $"Failed in update Time Record {timeRecord.id}");
+                        return new OperationResult(false, $"Failed in update Time Record {timeRecord.Id}");
                     }
                 }
                 else
@@ -140,6 +141,16 @@ namespace BusinessLogicLayer
         {
             var diff = TimeDifference;
             return diff.HasValue ? diff.Value.ToString(@"hh\:mm\:ss") : null;
+        }
+        
+        private CodingSessionDto ToCodingSessonDto(DataClasses.DataLayerClasses.CodingSessionEntity entity)
+        {
+            return new CodingSessionDto(
+                entity.Id,
+                entity.StartDate,
+                entity.EndDate,
+                entity.AllTime
+                );
         }
     }
 }
