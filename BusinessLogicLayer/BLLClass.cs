@@ -117,8 +117,9 @@ namespace BusinessLogicLayer
             {
                 if (timeRecord.Id > 0)
                 {
-                    // bool updateOperation = dataAccess.UpdateTimeRecord(timeRecord.id);
-                    bool updateOperation = true;
+                    // Convert CodingSessionDto to CodingSessionEntity before passing to UpdateCodingSession
+                    var entity = dataAccess.ToCodingSessionEntity(timeRecord);
+                    bool updateOperation = dataAccess.UpdateCodingSession(entity);
 
                     if (updateOperation)
                     {
