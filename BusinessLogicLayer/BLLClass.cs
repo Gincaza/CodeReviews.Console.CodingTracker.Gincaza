@@ -47,10 +47,11 @@ namespace BusinessLogicLayer
                 var timeDifference = TimeDifferenceCalc(starTime, endTime);
                 var formattedTimeDifference = TimeDifferenceFormatted(timeDifference) ?? "00:00";
 
-                var timeRecord = new CodingSessionDto(0, starTime, endTime, formattedTimeDifference);
+                var dto = new CodingSessionDto(0, starTime, endTime, formattedTimeDifference);
 
-                //bool success = dataAccess.AddTimeRecordToDatabase(timeRecord);
-                bool success = true; //TODO - when finish with the DatabaseLayer we comeback here
+                var entity = dataAccess.ToCodingSessionEntity(dto);
+
+                bool success = dataAccess.AddCodingSession(entity);
 
                 if (success)
                 {
@@ -69,7 +70,23 @@ namespace BusinessLogicLayer
 
         public List<CodingSessionDto> SeeTimeRecord()
         {
-            return new List<CodingSessionDto>();
+            try
+            {
+                var entities = dataAccess.GetAllCodingSession();
+
+                List<CodingSessionDto> dtos = new List<CodingSessionDto>();
+
+                foreach (var entity in entities)
+                {
+                    dtos.Add(ToCodingSessonDto(entity));
+                }
+
+                return dtos;
+            }
+            catch (Exception ex)
+            {
+                return new List<CodingSessionDto>();
+            }
         }
 
         public OperationResult DeleteTimeRecord(CodingSessionDto timeRecord)
