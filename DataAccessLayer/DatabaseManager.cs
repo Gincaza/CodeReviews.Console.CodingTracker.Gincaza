@@ -68,6 +68,28 @@ namespace DataAccessLayer
                 return connection.Query<CodingSessionEntity>(sql).ToList();
             }
         }
+
+        public bool UpdateCodingSession(CodingSessionEntity entity)
+        {
+            try
+            {
+                using (var connection = new SqliteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string sql = @"
+                            UPDATE CodingSessions
+                            SET StartDate = @StartDate,
+                                EndDate = @EndDate,
+                                AllTime = @AllTime
+                            WHERE Id = @Id";
+
+                    int rowsAffected = connection.Execute(sql, entity);
+
+                    return rowsAffected > 0;
+                }
+            } catch (Exception ex) { return false; }
+        }
         public CodingSessionEntity ToCodingSessionEntity(DataClasses.BLLClasses.CodingSessionDto dto)
         {
             return new CodingSessionEntity
