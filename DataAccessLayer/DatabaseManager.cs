@@ -57,6 +57,17 @@ namespace DataAccessLayer
             }
         }
 
+        public List<CodingSessionEntity> GetAllCodingSession()
+        {
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+
+                string sql = "SELECT Id, StartDate, EndDate, AllTime FROM CodingSessions";
+
+                return connection.Query<CodingSessionEntity>(sql).ToList();
+            }
+        }
         public CodingSessionEntity ToCodingSessionEntity(DataClasses.BLLClasses.CodingSessionDto dto)
         {
             return new CodingSessionEntity
