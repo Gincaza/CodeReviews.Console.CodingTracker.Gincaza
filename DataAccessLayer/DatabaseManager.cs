@@ -26,24 +26,6 @@ namespace DataAccessLayer
                         StartDate TEXT NOT NULL,
                         EndDate TEXT,
                         AllTime TEXT NOT NULL
-                    );
-                    
-                    CREATE TABLE IF NOT EXISTS Projects (
-                        Id INTEGER PRIMARY KEY,
-                        Name TEXT NOT NULL,
-                        Description TEXT,
-                        CreatedDate TEXT NOT NULL
-                    );
-                    
-                    CREATE TABLE IF NOT EXISTS CodeEntries (
-                        Id INTEGER PRIMARY KEY,
-                        CodingSessionId INTEGER NOT NULL,
-                        ProjectId INTEGER,
-                        Timestamp TEXT NOT NULL,
-                        CharactersAdded INTEGER NOT NULL,
-                        CharactersDeleted INTEGER NOT NULL,
-                        FOREIGN KEY (CodingSessionId) REFERENCES CodingSessions(Id),
-                        FOREIGN KEY (ProjectId) REFERENCES Projects(Id)
                     );";
                 
                 connection.Execute(sql);
