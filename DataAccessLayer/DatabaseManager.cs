@@ -90,6 +90,23 @@ namespace DataAccessLayer
                 }
             } catch (Exception ex) { return false; }
         }
+
+        public bool DeleteCodingSession(int id)
+        {
+            try
+            {
+                using (var connection = new SqliteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string sql = "DELETE FROM CodingSessions WHERE Id = @Id";
+
+                    int rowsAffected = connection.Execute(sql, new { Id = id });
+
+                    return rowsAffected > 0;
+                }
+            } catch (Exception ex) { return false; }
+        }
         public CodingSessionEntity ToCodingSessionEntity(DataClasses.BLLClasses.CodingSessionDto dto)
         {
             return new CodingSessionEntity
