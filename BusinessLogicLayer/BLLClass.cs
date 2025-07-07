@@ -6,11 +6,11 @@ namespace BusinessLogicLayer
 {
     public class BLLClass
     {
-        private DataAccessLayer.Class1 dataAccess;
+        private DataAccessLayer.DatabaseManager dataAccess;
 
         public BLLClass()
         {
-            this.dataAccess = new DataAccessLayer.Class1();
+            this.dataAccess = new DataAccessLayer.DatabaseManager();
         }
 
         public OperationResult InitializeDatabase()
