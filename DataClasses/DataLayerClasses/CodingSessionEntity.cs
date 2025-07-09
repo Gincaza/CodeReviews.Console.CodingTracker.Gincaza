@@ -3,8 +3,8 @@
     public class CodingSessionEntity
     {
         public int Id { get; set; }
-        public string StartDate { get; set; }
-        public string EndDate { get; set; }
-        public string AllTime { get; set; }
+        public required string StartDate { get; set; }
+        public required string EndDate { get; set; }
+        public required string AllTime { get; set; }
     }
 }
