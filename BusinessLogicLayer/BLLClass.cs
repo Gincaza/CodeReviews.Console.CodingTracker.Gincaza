@@ -1,6 +1,7 @@
 ﻿using BusinessLogicLayer.ComunicationClasses;
 using System.Globalization;
 using DataClasses.BLLClasses;
+using DataClasses.ConfigurationClass;
 
 namespace BusinessLogicLayer
 {
@@ -10,7 +11,7 @@ namespace BusinessLogicLayer
 
         public BLLClass()
         {
-            this.dataAccess = new DataAccessLayer.DatabaseManager();
+            this.dataAccess = new DataAccessLayer.DatabaseManager(ConfigurationManager.ConnectionString);
         }
 
         public OperationResult AddTimeRecord(string starTime, string endTime)
@@ -71,8 +72,7 @@ namespace BusinessLogicLayer
         {
             try
             {
-                //bool deleteOperation = dataAccess.DeleteTimeRecord(timeRecord.id);
-                bool deleteOperation = true;
+                bool deleteOperation = dataAccess.DeleteCodingSession(timeRecord.Id);
 
                 if (deleteOperation)
                 {

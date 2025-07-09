@@ -6,10 +6,12 @@ namespace DataAccessLayer
 {
     public class DatabaseManager
     {
-        private string connectionString = "Data Source=myDatabase.db";
+        private string? connectionString;
 
-        public DatabaseManager()
+        public DatabaseManager(string? connectionString)
         {
+            this.connectionString = connectionString;
+
             InitializeDatabase();
         }
 
