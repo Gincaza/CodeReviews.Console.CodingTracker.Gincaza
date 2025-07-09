@@ -1,2 +1,5 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using PresentationLayer;
+
+// Create a new instance of the CodingController and run the application
+CodingController controller = new CodingController();
+controller.Run();
