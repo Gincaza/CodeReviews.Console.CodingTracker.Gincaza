@@ -63,8 +63,11 @@ namespace PresentationLayer
             AnsiConsole.WriteLine("Add New Coding Session");
             AnsiConsole.WriteLine("=====================");
             
-            string startTime = UserInput.GetDateTimeInput("Start Time");
-            string endTime = UserInput.GetDateTimeInput("End Time");
+            string? startTime = UserInput.GetDateTimeInput("Start Time");
+            if (startTime == null) return; // User chose to go back
+            
+            string? endTime = UserInput.GetDateTimeInput("End Time");
+            if (endTime == null) return; // User chose to go back
 
             OperationResult result = _businessLogic.AddTimeRecord(startTime, endTime);
 
@@ -152,7 +155,8 @@ namespace PresentationLayer
             
             AnsiConsole.Write(table);
             
-            int id = AnsiConsole.Ask<int>("Enter the ID of the session to delete: ");
+            int? id = UserInput.GetIntInput("Enter the ID of the session to delete");
+            if (id == null) return; // User chose to go back
             
             var sessionToDelete = records.FirstOrDefault(r => r.Id == id);
             if (sessionToDelete != null)
@@ -211,13 +215,17 @@ namespace PresentationLayer
             
             AnsiConsole.Write(table);
             
-            int id = AnsiConsole.Ask<int>("Enter the ID of the session to update: ");
+            int? id = UserInput.GetIntInput("Enter the ID of the session to update");
+            if (id == null) return; // User chose to go back
             
             var sessionToUpdate = records.FirstOrDefault(r => r.Id == id);
             if (sessionToUpdate != null)
             {
-                string startTime = UserInput.GetDateTimeInput("New Start Time");
-                string endTime = UserInput.GetDateTimeInput("New End Time");
+                string? startTime = UserInput.GetDateTimeInput("New Start Time");
+                if (startTime == null) return; // User chose to go back
+                
+                string? endTime = UserInput.GetDateTimeInput("New End Time");
+                if (endTime == null) return; // User chose to go back
                 
                 sessionToUpdate.StartDate = startTime;
                 sessionToUpdate.EndDate = endTime;
