@@ -96,6 +96,11 @@ namespace BusinessLogicLayer
                 if (timeRecord.Id > 0)
                 {
                     // Convert CodingSessionDto to CodingSessionEntity before passing to UpdateCodingSession
+                    var timeDifference = TimeDifferenceCalc(timeRecord.StartDate, timeRecord.EndDate);
+                    var formattedTimeDifference = TimeDifferenceFormatted(timeDifference) ?? "00:00";
+
+                    timeRecord.AllTime = formattedTimeDifference;
+
                     var entity = dataAccess.ToCodingSessionEntity(timeRecord);
                     bool updateOperation = dataAccess.UpdateCodingSession(entity);
 
