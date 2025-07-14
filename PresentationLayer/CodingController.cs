@@ -7,11 +7,11 @@ namespace PresentationLayer
 {
     public class CodingController
     {
-        private readonly BLLClass _businessLogic;
+        private readonly BllClass _businessLogic;
 
         public CodingController()
         {
-            _businessLogic = new BLLClass();
+            _businessLogic = new BllClass();
         }
 
         public void Run()

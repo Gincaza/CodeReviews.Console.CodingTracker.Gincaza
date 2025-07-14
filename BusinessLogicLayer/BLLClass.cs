@@ -5,11 +5,11 @@ using DataClasses.ConfigurationClass;
 
 namespace BusinessLogicLayer
 {
-    public class BLLClass
+    public class BllClass
     {
         private DataAccessLayer.DatabaseManager dataAccess;
 
-        public BLLClass()
+        public BllClass()
         {
             this.dataAccess = new DataAccessLayer.DatabaseManager(ConfigurationManager.ConnectionString);
         }
