@@ -136,7 +136,6 @@ public class BllClass
         }
     }
 
-    //calc the difference by time
     private TimeSpan? TimeDifferenceCalc(string startDate, string endDate)
     {
         if (DateTime.TryParseExact(startDate, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var start) &&
