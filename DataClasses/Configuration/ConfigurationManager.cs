@@ -1,21 +1,20 @@
 ﻿using System.IO;
 using System.Text.Json;
 
-namespace DataClasses.ConfigurationClass
+namespace DataClasses.ConfigurationClass;
+
+public static class ConfigurationManager
 {
-    public static class ConfigurationManager
+    public static string? ConnectionString
     {
-        public static string? ConnectionString
+        get
         {
-            get
-            {
-                string json = File.ReadAllText("appsettings.json");
+            string json = File.ReadAllText("appsettings.json");
 
-                using JsonDocument doc = JsonDocument.Parse(json);
-                JsonElement root = doc.RootElement;
+            using JsonDocument doc = JsonDocument.Parse(json);
+            JsonElement root = doc.RootElement;
 
-                return root.GetProperty("DefaultConnection").GetString();
-            }
+            return root.GetProperty("DefaultConnection").GetString();
         }
     }
 }

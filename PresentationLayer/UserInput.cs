@@ -1,71 +1,70 @@
 using Spectre.Console;
 
-namespace PresentationLayer
+namespace PresentationLayer;
+
+public static class UserInput
 {
-    public static class UserInput
+    public static string? GetDateTimeInput(string prompt, bool allowBack = true)
     {
-        public static string? GetDateTimeInput(string prompt, bool allowBack = true)
+        string format = Validation.GetRequiredDateTimeFormat();
+        AnsiConsole.MarkupLine($"[yellow]Please enter {prompt} in format: {format}[/]");
+        
+        if (allowBack)
         {
-            string format = Validation.GetRequiredDateTimeFormat();
-            AnsiConsole.MarkupLine($"[yellow]Please enter {prompt} in format: {format}[/]");
+            AnsiConsole.MarkupLine("[blue]Press 'B' to go back[/]");
+        }
+        
+        while (true)
+        {
+            string input = AnsiConsole.Ask<string>($"{prompt}: ");
             
-            if (allowBack)
+            if (allowBack && (input.ToUpper() == "B" || input.ToUpper() == "BACK"))
             {
-                AnsiConsole.MarkupLine("[blue]Press 'B' to go back[/]");
+                return null; // Return null to indicate user wants to go back
             }
             
-            while (true)
+            if (Validation.IsValidDateTimeFormat(input))
             {
-                string input = AnsiConsole.Ask<string>($"{prompt}: ");
-                
-                if (allowBack && (input.ToUpper() == "B" || input.ToUpper() == "BACK"))
-                {
-                    return null; // Return null to indicate user wants to go back
-                }
-                
-                if (Validation.IsValidDateTimeFormat(input))
-                {
-                    return input;
-                }
-                
-                AnsiConsole.MarkupLine($"[red]Invalid format. Please use the format: {format}[/]");
+                return input;
             }
+            
+            AnsiConsole.MarkupLine($"[red]Invalid format. Please use the format: {format}[/]");
+        }
+    }
+
+    public static int GetMenuSelection(string title, string[] options)
+    {
+        var selection = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title(title)
+                .PageSize(10)
+                .AddChoices(options));
+
+        return Array.IndexOf(options, selection);
+    }
+
+    public static int? GetIntInput(string prompt, bool allowBack = true)
+    {
+        if (allowBack)
+        {
+            AnsiConsole.MarkupLine("[blue]Press 'B' to go back[/]");
         }
 
-        public static int GetMenuSelection(string title, string[] options)
+        while (true)
         {
-            var selection = AnsiConsole.Prompt(
-                new SelectionPrompt<string>()
-                    .Title(title)
-                    .PageSize(10)
-                    .AddChoices(options));
+            string input = AnsiConsole.Ask<string>($"{prompt}: ");
 
-            return Array.IndexOf(options, selection);
-        }
-
-        public static int? GetIntInput(string prompt, bool allowBack = true)
-        {
-            if (allowBack)
+            if (allowBack && (input.ToUpper() == "B" || input.ToUpper() == "BACK"))
             {
-                AnsiConsole.MarkupLine("[blue]Press 'B' to go back[/]");
+                return null; // Return null to indicate user wants to go back
             }
 
-            while (true)
+            if (int.TryParse(input, out int result))
             {
-                string input = AnsiConsole.Ask<string>($"{prompt}: ");
-
-                if (allowBack && (input.ToUpper() == "B" || input.ToUpper() == "BACK"))
-                {
-                    return null; // Return null to indicate user wants to go back
-                }
-
-                if (int.TryParse(input, out int result))
-                {
-                    return result;
-                }
-
-                AnsiConsole.MarkupLine("[red]Invalid input. Please enter a number.[/]");
+                return result;
             }
+
+            AnsiConsole.MarkupLine("[red]Invalid input. Please enter a number.[/]");
         }
     }
 }
