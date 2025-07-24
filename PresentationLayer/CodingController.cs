@@ -110,7 +110,7 @@ public class CodingController
                     record.Id.ToString(),
                     record.StartDate,
                     record.EndDate,
-                    record.AllTime
+                    record.Duration
                 );
             }
             
@@ -149,7 +149,7 @@ public class CodingController
                 record.Id.ToString(),
                 record.StartDate,
                 record.EndDate,
-                record.AllTime
+                record.Duration
             );
         }
         
@@ -209,7 +209,7 @@ public class CodingController
                 record.Id.ToString(),
                 record.StartDate,
                 record.EndDate,
-                record.AllTime
+                record.Duration
             );
         }
         

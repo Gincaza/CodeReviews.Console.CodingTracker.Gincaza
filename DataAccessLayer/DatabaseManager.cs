@@ -26,7 +26,7 @@ public class DatabaseManager
                             Id INTEGER PRIMARY KEY,
                             StartDate TEXT NOT NULL,
                             EndDate TEXT,
-                            AllTime TEXT NOT NULL
+                            Duration TEXT NOT NULL
                         );";
 
         connection.Execute(sql);
@@ -40,8 +40,8 @@ public class DatabaseManager
             connection.Open();
 
             string sql = @"
-                        INSERT INTO CodingSessions (StartDate, EndDate, AllTime)
-                        VALUES (@StartDate, @EndDate, @AllTime);
+                        INSERT INTO CodingSessions (StartDate, EndDate, Duration)
+                        VALUES (@StartDate, @EndDate, @Duration);
                         SELECT last_insert_rowid();";
 
             int newId = connection.ExecuteScalar<int>(sql, entity);
@@ -60,7 +60,7 @@ public class DatabaseManager
         using var connection = new SqliteConnection(connectionString);
         connection.Open();
 
-        string sql = "SELECT Id, StartDate, EndDate, AllTime FROM CodingSessions";
+        string sql = "SELECT Id, StartDate, EndDate, Duration FROM CodingSessions";
 
         return connection.Query<CodingSessionEntity>(sql).ToList();
     }
@@ -76,7 +76,7 @@ public class DatabaseManager
                             UPDATE CodingSessions
                             SET StartDate = @StartDate,
                                 EndDate = @EndDate,
-                                AllTime = @AllTime
+                                Duration = @Duration
                             WHERE Id = @Id";
 
             int rowsAffected = connection.Execute(sql, entity);
@@ -106,7 +106,7 @@ public class DatabaseManager
             Id = dto.Id,
             StartDate = dto.StartDate,
             EndDate = dto.EndDate,
-            AllTime = dto.AllTime
+            Duration = dto.Duration
         };
     }
 }

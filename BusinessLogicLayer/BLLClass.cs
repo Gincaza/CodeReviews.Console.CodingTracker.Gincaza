@@ -111,7 +111,7 @@ public class BllClass
 
                 var formattedTimeDifference = TimeDifferenceFormatted(timeDifference) ?? "00:00";
 
-                timeRecord.AllTime = formattedTimeDifference;
+                timeRecord.Duration = formattedTimeDifference;
 
                 var entity = dataAccess.ToCodingSessionEntity(timeRecord);
                 bool updateOperation = dataAccess.UpdateCodingSession(entity);
@@ -165,7 +165,7 @@ public class BllClass
             entity.Id,
             entity.StartDate,
             entity.EndDate,
-            entity.AllTime
+            entity.Duration
             );
     }
 }
