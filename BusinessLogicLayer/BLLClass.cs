@@ -1,7 +1,7 @@
 ﻿using BusinessLogicLayer.ComunicationClasses;
-using System.Globalization;
 using DataClasses.BLLClasses;
 using DataClasses.ConfigurationClass;
+using System.Globalization;
 
 namespace BusinessLogicLayer
 {
@@ -24,6 +24,12 @@ namespace BusinessLogicLayer
                 }
 
                 var timeDifference = TimeDifferenceCalc(starTime, endTime);
+
+                if (timeDifference == null)
+                {
+                    return new OperationResult(false, "Invalid date format or start time is after end time.");
+                }
+
                 var formattedTimeDifference = TimeDifferenceFormatted(timeDifference) ?? "00:00";
 
                 var dto = new CodingSessionDto(0, starTime, endTime, formattedTimeDifference);
@@ -97,6 +103,12 @@ namespace BusinessLogicLayer
                 {
                     // Convert CodingSessionDto to CodingSessionEntity before passing to UpdateCodingSession
                     var timeDifference = TimeDifferenceCalc(timeRecord.StartDate, timeRecord.EndDate);
+
+                    if (timeDifference == null)
+                    {
+                        return new OperationResult(false, "Invalid date format or start time is after end time.");
+                    }
+
                     var formattedTimeDifference = TimeDifferenceFormatted(timeDifference) ?? "00:00";
 
                     timeRecord.AllTime = formattedTimeDifference;
@@ -130,10 +142,15 @@ namespace BusinessLogicLayer
             if (DateTime.TryParseExact(startDate, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var start) &&
                 DateTime.TryParseExact(endDate, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var end))
             {
-                return end - start;
+                if (start < end)
+                {
+                    return end - start;
+                }
+
+                return null;
             }
 
-            return null; // return null if can't convert
+            return null; //return null if can't convert
         }
 
         //returns in a formated in hours string
