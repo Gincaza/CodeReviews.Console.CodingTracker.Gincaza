@@ -142,11 +142,8 @@ namespace BusinessLogicLayer
                 return null;
             }
 
-            return null;
+            return null; //return null if can't convert
         }
-
-        return null; //return null if can't convert
-    }
 
         //returns in a formated in hours string
         private string? TimeDifferenceFormatted(TimeSpan? TimeDifference)
