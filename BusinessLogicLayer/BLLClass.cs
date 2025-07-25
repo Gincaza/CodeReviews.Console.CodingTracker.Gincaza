@@ -1,17 +1,17 @@
 ﻿using BusinessLogicLayer.ComunicationClasses;
 using System.Globalization;
-using DataClasses.BLLClasses;
-using DataClasses.ConfigurationClass;
+using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.DataClasses;
 
 namespace BusinessLogicLayer
 {
     public class BLLClass
     {
-        private DataAccessLayer.DatabaseManager dataAccess;
+        private readonly ICodingSessionRepository _codingSessionRepository;
 
-        public BLLClass()
+        public BLLClass(ICodingSessionRepository codingSessionRepository)
         {
-            this.dataAccess = new DataAccessLayer.DatabaseManager(ConfigurationManager.ConnectionString);
+            this._codingSessionRepository = codingSessionRepository;
         }
 
         public OperationResult AddTimeRecord(string starTime, string endTime)
@@ -24,13 +24,23 @@ namespace BusinessLogicLayer
                 }
 
                 var timeDifference = TimeDifferenceCalc(starTime, endTime);
+
+                if (timeDifference == null)
+                {
+                    return new OperationResult(false, "Invalid date format or start time is after end time");
+                }
+
                 var formattedTimeDifference = TimeDifferenceFormatted(timeDifference) ?? "00:00";
 
-                var dto = new CodingSessionDto(0, starTime, endTime, formattedTimeDifference);
+                var session = new CodingSession
+                {
+                    Id = 0,
+                    StartDate = starTime,
+                    EndDate = endTime,
+                    Duration = formattedTimeDifference,
+                };
 
-                var entity = dataAccess.ToCodingSessionEntity(dto);
-
-                bool success = dataAccess.AddCodingSession(entity);
+                bool success = this._codingSessionRepository.AddCodingSession(session);
 
                 if (success)
                 {
@@ -47,32 +57,23 @@ namespace BusinessLogicLayer
             }
         }
 
-        public List<CodingSessionDto> SeeTimeRecord()
+        public List<CodingSession> SeeTimeRecord()
         {
             try
             {
-                var entities = dataAccess.GetAllCodingSession();
-
-                List<CodingSessionDto> dtos = new List<CodingSessionDto>();
-
-                foreach (var entity in entities)
-                {
-                    dtos.Add(ToCodingSessonDto(entity));
-                }
-
-                return dtos;
+                return this._codingSessionRepository.GetAllCodingSessions();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return new List<CodingSessionDto>();
+                return new List<CodingSession>();
             }
         }
 
-        public OperationResult DeleteTimeRecord(CodingSessionDto timeRecord)
+        public OperationResult DeleteTimeRecord(CodingSession timeRecord)
         {
             try
             {
-                bool deleteOperation = dataAccess.DeleteCodingSession(timeRecord.Id);
+                bool deleteOperation = this._codingSessionRepository.DeleteCodingSession(timeRecord.Id);
 
                 if (deleteOperation)
                 {
@@ -89,20 +90,24 @@ namespace BusinessLogicLayer
             }
         }
 
-        public OperationResult UpdateTimeRecord(CodingSessionDto timeRecord)
+        public OperationResult UpdateTimeRecord(CodingSession timeRecord)
         {
             try
             {
                 if (timeRecord.Id > 0)
                 {
-                    // Convert CodingSessionDto to CodingSessionEntity before passing to UpdateCodingSession
                     var timeDifference = TimeDifferenceCalc(timeRecord.StartDate, timeRecord.EndDate);
+
+                    if (timeDifference == null)
+                    {
+                        return new OperationResult(false, "Invalid date format or start time is after end time.");
+                    }
+
                     var formattedTimeDifference = TimeDifferenceFormatted(timeDifference) ?? "00:00";
 
-                    timeRecord.AllTime = formattedTimeDifference;
+                    timeRecord.Duration = formattedTimeDifference;
 
-                    var entity = dataAccess.ToCodingSessionEntity(timeRecord);
-                    bool updateOperation = dataAccess.UpdateCodingSession(entity);
+                    bool updateOperation = _codingSessionRepository.UpdateCodingSession(timeRecord);
 
                     if (updateOperation)
                     {
@@ -130,7 +135,11 @@ namespace BusinessLogicLayer
             if (DateTime.TryParseExact(startDate, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var start) &&
                 DateTime.TryParseExact(endDate, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var end))
             {
-                return end - start;
+                if (start < end)
+                {
+                    return end - start;
+                }
+                return null;
             }
 
             return null; // return null if can't convert
@@ -139,18 +148,8 @@ namespace BusinessLogicLayer
         //returns in a formated in hours string
         private string? TimeDifferenceFormatted(TimeSpan? TimeDifference)
         {
-            var diff = TimeDifference;
-            return diff.HasValue ? diff.Value.ToString(@"hh\:mm\:ss") : null;
+            return TimeDifference?.ToString(@"hh\:mm\:ss");
         }
         
-        private CodingSessionDto ToCodingSessonDto(DataClasses.DataLayerClasses.CodingSessionEntity entity)
-        {
-            return new CodingSessionDto(
-                entity.Id,
-                entity.StartDate,
-                entity.EndDate,
-                entity.AllTime
-                );
-        }
     }
 }
