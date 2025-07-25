@@ -1,6 +1,5 @@
 using BusinessLogicLayer;
 using BusinessLogicLayer.ComunicationClasses;
-using DataClasses.BLLClasses;
 using Spectre.Console;
 
 namespace PresentationLayer
@@ -9,9 +8,9 @@ namespace PresentationLayer
     {
         private readonly BLLClass _businessLogic;
 
-        public CodingController()
+        public CodingController(BLLClass businessLogic)
         {
-            _businessLogic = new BLLClass();
+            _businessLogic = businessLogic;
         }
 
         public void Run()
@@ -110,7 +109,7 @@ namespace PresentationLayer
                         record.Id.ToString(),
                         record.StartDate,
                         record.EndDate,
-                        record.AllTime
+                        record.Duration
                     );
                 }
                 
@@ -149,7 +148,7 @@ namespace PresentationLayer
                     record.Id.ToString(),
                     record.StartDate,
                     record.EndDate,
-                    record.AllTime
+                    record.Duration
                 );
             }
             
@@ -209,7 +208,7 @@ namespace PresentationLayer
                     record.Id.ToString(),
                     record.StartDate,
                     record.EndDate,
-                    record.AllTime
+                    record.Duration
                 );
             }
             
