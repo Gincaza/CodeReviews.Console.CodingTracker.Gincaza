@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text.Json;
 
-namespace DataClasses.ConfigurationClass;
+namespace BusinessLogicLayer.Configuration;
 
 public static class ConfigurationManager
 {

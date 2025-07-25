@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogicLayer", "Busin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{0C1B5274-651E-47C1-9A28-0FFFA689CA2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataClasses", "DataClasses\DataClasses.csproj", "{A6CCC3D2-A1C1-4862-B128-A03F22CA7FBD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{0C1B5274-651E-47C1-9A28-0FFFA689CA2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C1B5274-651E-47C1-9A28-0FFFA689CA2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C1B5274-651E-47C1-9A28-0FFFA689CA2D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A6CCC3D2-A1C1-4862-B128-A03F22CA7FBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A6CCC3D2-A1C1-4862-B128-A03F22CA7FBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A6CCC3D2-A1C1-4862-B128-A03F22CA7FBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A6CCC3D2-A1C1-4862-B128-A03F22CA7FBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
